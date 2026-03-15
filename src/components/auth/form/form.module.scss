@@ -1,0 +1,11 @@
+.form {
+  padding: 1rem;
+
+  .error {
+    color: salmon;
+    font-size: 12px;
+  }
+  .invalidBorder {
+    border-color: var(--bs-form-invalid-border-color);
+  }
+}

@@ -1,0 +1,22 @@
+.auth-footer {
+  text-align: center;
+  font-size: 13px;
+
+  .auth-footer__text {
+    margin-bottom: 1rem;
+    color: var(--bs-body-color);
+
+    span {
+      color: var(--bs-primary);
+      cursor: pointer;
+      font-size: 13px;
+    }
+  }
+  .auth-footer__copyright {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: var(--bs-body-color);
+  }
+}

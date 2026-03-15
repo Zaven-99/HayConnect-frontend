@@ -1,0 +1,25 @@
+.input {
+  margin-bottom: 1rem;
+  position: relative;
+
+  .error {
+    font-size: 12px;
+    margin-top: 0.25rem;
+    width: 100%;
+    color: var(--bs-form-invalid-color);
+  }
+  .errorIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1.4px solid red;
+    color: red;
+    font-size: 13px;
+    position: absolute;
+    right: 11px;
+    top: 10px;
+  }
+}

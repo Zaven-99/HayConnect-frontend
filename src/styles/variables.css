@@ -1,0 +1,26 @@
+:root {
+  --bs-secondary-bg: #f0f2f5; /* фон контейнера и input */
+  --bs-secondary-color: #1f2431bf; /* заголовки и подзаголовки */
+  --bs-body-color: #000000; /* тексты, label, placeholder, footer */
+  --bs-border-width: 1px; /* границы input */
+  --bs-border-color: #cccccc; /* границы input */
+  --bs-border-radius: 0.5rem; /* скругления input */
+  --bs-primary: #2c91ff; /* кнопка submit, span */
+  --bs-primary-rgb: 122, 111, 190; /* для rgba */
+  --bs-body-bg: #ffffff;
+  --bs-form-invalid-color: salmon;
+  --bs-invalid-select: #fa807263;
+}
+
+[data-theme="dark"] {
+  --bs-secondary-bg: #2a3142; /* фон контейнера и input */
+  --bs-secondary-color: #adb5bdbf; /* заголовки и подзаголовки */
+  --bs-body-color: #adb5bd; /* тексты, label, placeholder, footer */
+  --bs-border-width: 1px; /* границы input */
+  --bs-border-color: #cccccc; /* можно оставить как дефолт */
+  --bs-border-radius: 0.5rem; /* скругления input */
+  --bs-primary: #2c91ff; /* кнопка submit, span */
+  --bs-primary-rgb: 122, 111, 190; /* для rgba */
+  --bs-form-invalid-color: salmon;
+  --bs-invalid-select: #fa807263;
+}

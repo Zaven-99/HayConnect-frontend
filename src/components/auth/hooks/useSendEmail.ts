@@ -1,9 +1,7 @@
 import type { IFormValues } from "../types/auth.types";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
-export const useSendEmail = (
-  handleSendEmail: (data: IFormValues, reset: () => void) => void,
-) => {
+export const useSendEmail = () => {
   const {
     register,
     reset,
@@ -17,14 +15,10 @@ export const useSendEmail = (
     reValidateMode: "onChange",
   });
 
-  const onSubmit: SubmitHandler<IFormValues> = async (data) => {
-    handleSendEmail(data, reset);
-  };
-
   return {
     register,
     errors,
-    onSubmit,
+    reset,
     handleSubmit,
   };
 };

@@ -1,10 +1,7 @@
 import { useForm } from "react-hook-form";
-import type { SubmitHandler } from "react-hook-form";
 import type { IFormValues } from "../types/auth.types";
 
-export const useSignin = (
-  handleLogin: (data: IFormValues, reset: () => void) => void,
-) => {
+export const useSignin = () => {
   const {
     register,
     handleSubmit,
@@ -19,14 +16,10 @@ export const useSignin = (
     reValidateMode: "onChange",
   });
 
-  const onSubmit: SubmitHandler<IFormValues> = async (data) => {
-    handleLogin(data, reset);
-  };
-
   return {
     register,
     handleSubmit,
     errors,
-    onSubmit,
+    reset,
   };
 };

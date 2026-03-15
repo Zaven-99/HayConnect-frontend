@@ -1,33 +1,6 @@
-.authReset {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  .authReset-container {
-    margin-bottom: 1.5rem;
-    @media (max-width: 768px) {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      padding: 0 25px;
-    }
-    .authReset-container__inner {
-      width: 450px;
-      height: min-content;
-      background: var(--bs-body-bg);
-      box-shadow:
-        0 -3px 31px 0 #0000000d,
-        0 6px 20px 0 #00000005;
-      border-radius: 5px;
-      padding: 1.25rem 1.25rem;
-
-      .message-title {
-        font-size: 18px;
-        color: var(--bs-secondary-color);
-        text-align: center;
-        margin-bottom: 0.25rem;
-      }
-    }
-  }
+.message-title {
+  font-size: 18px;
+  color: var(--bs-secondary-color);
+  text-align: center;
+  margin-bottom: 0.25rem;
 }

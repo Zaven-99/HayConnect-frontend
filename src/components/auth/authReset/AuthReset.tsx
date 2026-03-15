@@ -1,4 +1,5 @@
 import AuthFooter from "../authFooter/AuthFooter";
+import FormContainer from "../form/formContainer/FormContainer";
 import type { IFormValues } from "../types/auth.types";
 import styles from "./authReset.module.scss";
 import EmailForm from "./EmailForm";
@@ -14,26 +15,23 @@ const AuthReset = ({
   message,
 }: AuthResetProps) => {
   return (
-    <div className={styles["authReset"]}>
-      <div className={styles["authReset-container"]}>
-        <div className={styles["authReset-container__inner"]}>
-          {!message ? (
-            <EmailForm handleSendEmail={handleSendEmail} />
-          ) : (
-            <div className={styles["successMessage"]}>
-              <h4 className={styles["message-title"]}>{message}</h4>
-            </div>
-          )}
+    <FormContainer>
+      {!message ? (
+        <>
+          <EmailForm handleSendEmail={handleSendEmail} />
+          <AuthFooter
+            text="Remember it ?"
+            link="Sign in here"
+            toggleSwitch={toggleSwitch}
+            arg="signin"
+          />
+        </>
+      ) : (
+        <div className={styles["successMessage"]}>
+          <h4 className={styles["message-title"]}>{message}</h4>
         </div>
-      </div>
-
-      <AuthFooter
-        text="Remember it ?"
-        link="Sign in here"
-        toggleSwitch={toggleSwitch}
-        arg="signin"
-      />
-    </div>
+      )}
+    </FormContainer>
   );
 };
 

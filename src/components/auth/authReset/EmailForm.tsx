@@ -10,11 +10,10 @@ interface EmailFormProps {
 }
 
 const EmailForm = ({ handleSendEmail }: EmailFormProps) => {
-  const { register, errors, handleSubmit, onSubmit } =
-    useSendEmail(handleSendEmail);
+  const { register, errors, handleSubmit, reset } = useSendEmail();
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <h4 className={styles["auth-title"]}>Reset password</h4>
+    <Form onSubmit={handleSubmit((data) => handleSendEmail(data, reset))}>
+      <h4 className={styles["emailForm-title"]}>Reset password</h4>
       <label className={styles["form-label"]} htmlFor="email">
         Email
       </label>

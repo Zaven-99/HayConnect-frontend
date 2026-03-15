@@ -1,0 +1,16 @@
+.form {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  .form-container {
+    .form-container_inner {
+      width: 450px;
+      height: min-content;
+      box-shadow:
+        0 -3px 31px 0 #0000000d,
+        0 6px 20px 0 #00000005;
+      border-radius: 5px;
+      padding: 1.25rem 1.25rem;
+    }
+  }
+}

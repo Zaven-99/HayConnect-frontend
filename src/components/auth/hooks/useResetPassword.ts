@@ -1,9 +1,7 @@
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import type { IFormValues } from "../types/auth.types";
 
-export const useResetPassword = (
-  handleResetPassword: (data: IFormValues, reset: () => void) => void,
-) => {
+export const useResetPassword = () => {
   const {
     register,
     handleSubmit,
@@ -17,14 +15,10 @@ export const useResetPassword = (
     reValidateMode: "onChange",
   });
 
-  const onSubmit: SubmitHandler<IFormValues> = async (data) => {
-    handleResetPassword(data, reset);
-  };
-
   return {
     register,
     handleSubmit,
-    onSubmit,
+    reset,
     errors,
   };
 };

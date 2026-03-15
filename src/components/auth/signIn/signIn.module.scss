@@ -1,143 +1,121 @@
-.signin {
-  display: grid;
-  place-items: center;
-  height: 100vh;
-  .signin-container {
-    @media (max-width: 768px) {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      padding: 0 25px;
+.logo {
+  width: 115px;
+  justify-content: center;
+  font-size: 1.42188rem;
+  margin: 3rem auto 0 auto;
+  margin-bottom: 1.5rem;
+  height: 30px;
+}
+.signIn-title {
+  font-size: 18px;
+  color: var(--bs-secondary-color);
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+.signIn-subtitle {
+  margin-bottom: 1rem;
+  color: var(--bs-secondary-color);
+  text-align: center;
+  font-size: 13px;
+}
+.error {
+  font-size: 12px;
+  margin-top: 0.25rem;
+  width: 100%;
+  color: var(--bs-form-invalid-color);
+}
+.form-label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 13px;
+  color: var(--bs-body-color);
+}
+.form-control {
+  appearance: none;
+  background-clip: padding-box;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  color: var(--bs-body-color);
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 0.375rem 0.75rem;
+  width: 100%;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  &:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 2px rgba(122, 111, 190, 0.25);
+  }
+  &::placeholder {
+    color: var(--bs-body-color);
+  }
+}
+
+.forgot-password {
+  padding: 1rem;
+  span {
+    font-size: 13px;
+    margin-left: 5px;
+    cursor: pointer;
+    color: var(--bs-body-color);
+  }
+}
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @media (max-width: 768px) {
+    gap: 30px;
+  }
+  .form-check {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .form-check__label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--bs-body-color);
     }
-    .signin-container__inner {
-      width: 450px;
-      height: min-content;
-      box-shadow:
-        0 -3px 31px 0 #0000000d,
-        0 6px 20px 0 #00000005;
-      border-radius: 5px;
-      padding: 1.25rem 1.25rem;
-
-      .logo {
-        width: 115px;
-        justify-content: center;
-        font-size: 1.42188rem;
-        margin: 3rem auto 0 auto;
-        margin-bottom: 1.5rem;
-        height: 30px;
-      }
-      .auth-title {
-        font-size: 18px;
-        color: var(--bs-secondary-color);
-        text-align: center;
-        margin-bottom: 0.25rem;
-      }
-      .auth-subtitle {
-        margin-bottom: 1rem;
-        color: var(--bs-secondary-color);
-        text-align: center;
-        font-size: 13px;
-      }
-      .error {
-        font-size: 12px;
-        margin-top: 0.25rem;
-        width: 100%;
-        color: var(--bs-form-invalid-color);
-      }
-      .form-label {
-        font-weight: 500;
-        display: block;
-        margin-bottom: 0.5rem;
-        font-size: 13px;
-        color: var(--bs-body-color);
-      }
-      .form-control {
-        appearance: none;
-        background-clip: padding-box;
-        border: var(--bs-border-width) solid var(--bs-border-color);
-        border-radius: var(--bs-border-radius);
-        color: var(--bs-body-color);
-        display: block;
-        font-size: 0.8125rem;
-        font-weight: 400;
-        line-height: 1.5;
-        padding: 0.375rem 0.75rem;
-        width: 100%;
-        outline: none;
-        transition:
-          border-color 0.2s ease,
-          box-shadow 0.2s ease;
-        &:focus {
-          border-color: var(--bs-primary);
-          box-shadow: 0 0 0 2px rgba(122, 111, 190, 0.25);
-        }
-        &::placeholder {
-          color: var(--bs-body-color);
-        }
-      }
-
-      .forgot-password {
-        padding: 1rem;
-        span {
-          font-size: 13px;
-          margin-left: 5px;
-          cursor: pointer;
-          color: var(--bs-body-color);
-        }
-      }
-      .form-actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        @media (max-width: 768px) {
-          gap: 30px;
-        }
-        .form-check {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-
-          .form-check__label {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--bs-body-color);
-          }
-          .form-check__input {
-            accent-color: var(--bs-primary);
-          }
-        }
-        .submit-button {
-          min-width: 110px;
-          cursor: pointer;
-          background: var(--bs-primary);
-          color: white;
-          font-size: 13px;
-          padding: 5px 15px;
-          border-radius: var(--bs-border-radius);
-        }
-      }
+    .form-check__input {
+      accent-color: var(--bs-primary);
     }
   }
-  .auth-footer {
-    margin-top: 3rem;
-    text-align: center;
+  .submit-button {
+    min-width: 110px;
+    cursor: pointer;
+    background: var(--bs-primary);
+    color: white;
     font-size: 13px;
+    padding: 5px 15px;
+    border-radius: var(--bs-border-radius);
+  }
+}
 
-    .auth-footer__text {
-      margin-bottom: 1rem;
-      color: var(--bs-body-color);
+.auth-footer {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 13px;
 
-      span {
-        color: #7a6fbe;
-        cursor: pointer;
-        font-size: 13px;
-      }
+  .auth-footer__text {
+    margin-bottom: 1rem;
+    color: var(--bs-body-color);
+
+    span {
+      color: var(--bs-primary);
+      cursor: pointer;
+      font-size: 13px;
     }
-    .auth-footer__copyright {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      color: var(--bs-body-color);
-    }
+  }
+  .auth-footer__copyright {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--bs-body-color);
   }
 }

@@ -1,0 +1,45 @@
+.form-label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 13px;
+  color: var(--bs-body-color);
+}
+.select-wrapper {
+  display: ruby-text;
+  position: relative;
+  flex: 1;
+
+  select {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: var(--bs-border-radius);
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
+    color: #1f2431;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    appearance: none;
+    outline: none;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &:focus {
+      border-color: var(--bs-primary);
+      box-shadow: 0 0 0 2px rgba(122, 111, 190, 0.25);
+    }
+  }
+
+  .invalidBorder {
+    background: var(--bs-invalid-select);
+  }
+  .arrow {
+    position: absolute;
+    right: 10px;
+    top: 60%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--bs-primary);
+  }
+}

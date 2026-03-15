@@ -1,10 +1,8 @@
 import { useForm, useWatch } from "react-hook-form";
 import type { IFormValues } from "../types/auth.types";
-import type { SubmitHandler } from "react-hook-form";
+// import type { SubmitHandler } from "react-hook-form";
 
-export const useSignUp = (
-  handleSignUp: (data: IFormValues, reset: () => void) => void,
-) => {
+export const useSignUp = () => {
   const {
     register,
     formState: { errors },
@@ -26,14 +24,10 @@ export const useSignUp = (
   });
   const password = useWatch({ control, name: "password" });
 
-  const onSubmit: SubmitHandler<IFormValues> = async (data) => {
-    handleSignUp(data, reset);
-  };
-
   return {
     register,
     errors,
-    onSubmit,
+    reset,
     handleSubmit,
     password,
   };

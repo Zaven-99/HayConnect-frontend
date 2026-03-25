@@ -78,6 +78,7 @@ export const useAuth = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const token = query.get("token");
+
   const handleResetPassword = (data: IFormValues, reset: () => void) => {
     dispatch(setLoading(true));
     if (!token) {

@@ -1,0 +1,36 @@
+.post {
+  animation: fadeIn 0.5s ease-in-out forwards;
+
+  .post-img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 5px;
+  }
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: #aaa;
+
+    &-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.4;
+    }
+
+    &-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
+
+    &-subtitle {
+      font-size: 14px;
+      opacity: 0.6;
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  justify-content: center;
+
+  li {
+    color: #c0c0c0;
+    transition: color 0.2s;
+    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: var(--bs-border-radius);
+  }
+
+  li.active {
+    color: var(--bs-primary);
+  }
+
+  li:hover {
+    background: #c0c0c03e;
+  }
+
+  .user {
+    position: relative;
+  }
+  .icon-wrapper {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon {
+      font-size: 30px;
+    }
+  }
+}

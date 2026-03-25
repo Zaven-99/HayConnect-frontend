@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: sans-serif;
+  justify-content: end;
+}
+
+.label {
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 0.2s;
+  color: lightgray;
+}
+
+.star.active {
+  color: var(--bs-primary);
+}

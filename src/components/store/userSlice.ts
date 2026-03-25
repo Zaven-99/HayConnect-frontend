@@ -8,6 +8,7 @@ import type { IUser, IFormValues } from "../auth/types/auth.types";
 interface UserState {
   user: IUser | null;
   isLoggedIn: boolean;
+  viewedUser: IUser | null;
   loading: boolean;
   error: string | null;
 }
@@ -20,8 +21,9 @@ interface ResetPasswordPayload {
 const initialState: UserState = {
   user: null,
   isLoggedIn: false,
-  loading: false,
+  loading: true,
   error: null,
+  viewedUser: null,
 };
 export const loginUser = createAsyncThunk(
   "user/loginUser",
@@ -43,15 +45,31 @@ export const loginUser = createAsyncThunk(
         }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        return rejectWithValue(errorData.message || "Server Error");
+      let result;
+
+      try {
+        result = await response.json();
+      } catch {
+        result = null;
       }
 
-      const user = await response.json();
-      return user;
-    } catch {
-      return rejectWithValue("Network Error");
+      if (!response.ok) {
+        let message = "Server Error";
+
+        if (response.status === 401) {
+          message = result?.error || "Invalid email or password";
+        } else if (response.status === 400) {
+          message = result?.error || "Bad request";
+        } else if (response.status === 500) {
+          message = "Server crashed";
+        }
+
+        return rejectWithValue(message);
+      }
+
+      return result;
+    } catch (err: unknown) {
+      return rejectWithValue((err as Error).message || "Network Error");
     }
   },
 );
@@ -75,8 +93,12 @@ export const registerUser = createAsyncThunk(
           password: data.password,
           gender: data.gender,
           dateOfBirth: dateOfBirth,
-          avatar: "default.png",
           rememberMe,
+          avatar: "",
+          images: [],
+          posts: [],
+          folowers: [],
+          folowing: [],
         }),
       });
 
@@ -103,14 +125,72 @@ export const fetchCurrentUser = createAsyncThunk(
   "user/fetchCurrentUser",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetch("/api/users/me", { credentials: "include" });
-      if (!res.ok) throw new Error("Not authenticated");
-      return await res.json();
-    } catch (err) {
-      if (err instanceof Error) {
-        return rejectWithValue(err.message);
+      const res = await fetch("http://localhost:8080/api/users/me", {
+        credentials: "include",
+      });
+
+      const contentType = res.headers.get("content-type");
+      if (!res.ok) {
+        // Если сервер вернул страницу логина (HTML)
+        if (contentType && contentType.includes("text/html")) {
+          return rejectWithValue("Not authenticated");
+        }
+        // Иначе читаем JSON ошибки
+        const errorData = await res.json();
+        return rejectWithValue(errorData.message || "Server error");
       }
+
+      if (contentType && contentType.includes("application/json")) {
+        return await res.json();
+      } else {
+        return rejectWithValue("Unexpected response format");
+      }
+    } catch (err) {
+      if (err instanceof Error) return rejectWithValue(err.message);
       return rejectWithValue("Unknown error");
+    }
+  },
+);
+
+export const fetchUserById = createAsyncThunk(
+  "user/fetchUserById",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/users/user/${id}`, {
+        credentials: "include",
+      });
+      if (!res.ok) return rejectWithValue("User not found");
+      return await res.json();
+    } catch {
+      return rejectWithValue("Network Error");
+    }
+  },
+);
+
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (data: FormData, { rejectWithValue }) => {
+    try {
+      const res = await fetch("http://localhost:8080/api/users/update", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const error = await res.text();
+        return rejectWithValue(error || "Server error");
+      }
+
+      const user = await res.json();
+      return user;
+    } catch (err) {
+      return rejectWithValue(
+        err instanceof Error ? err.message : "Network error",
+      );
     }
   },
 );
@@ -217,8 +297,25 @@ const userSlice = createSlice({
         state.error = action.payload as string;
       })
       .addCase(logoutUser.fulfilled, (state) => {
+        state.loading = false;
+        state.user = null;
+        state.isLoggedIn = false;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(updateUser.pending, (state) => {
         state.loading = true;
         state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       })
       .addCase(forgotPassword.pending, (state) => {
         state.loading = true;
@@ -243,6 +340,23 @@ const userSlice = createSlice({
       .addCase(resetPassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.isLoggedIn = true;
+      })
+      .addCase(fetchCurrentUser.rejected, (state) => {
+        state.loading = false;
+        state.user = null;
+        state.isLoggedIn = false;
+      })
+      .addCase(fetchUserById.fulfilled, (state, action) => {
+        state.viewedUser = action.payload;
       });
   },
 });

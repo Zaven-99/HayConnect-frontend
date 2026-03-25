@@ -1,6 +1,5 @@
 import { useForm, useWatch } from "react-hook-form";
 import type { IFormValues } from "../types/auth.types";
-// import type { SubmitHandler } from "react-hook-form";
 
 export const useSignUp = () => {
   const {

@@ -1,0 +1,40 @@
+.add-image-modal {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  .preview-container {
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  }
+  .add-btn {
+    width: 100%;
+    cursor: pointer;
+    background: var(--bs-primary);
+    color: white;
+    font-size: 13px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: var(--bs-border-radius);
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

@@ -12,6 +12,8 @@ export interface IFormValues {
 }
 
 export interface IUser {
+  id: number;
+  token?: string;
   avatar?: string;
   name: string;
   lastName: string;
@@ -19,4 +21,10 @@ export interface IUser {
   gender: string;
   email: string;
   password: string;
+  images?: string[];
+  posts?: string[];
+  ratingAvg?: number;
+  ratingCount?: number;
+  folowers?: string[];
+  folowing?: string[];
 }

@@ -1,0 +1,97 @@
+.createPostModal {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  .close-btn {
+    font-size: 20px;
+    position: absolute;
+    right: 15px;
+    &:hover {
+      transform: scale(1.05);
+      color: salmon;
+    }
+  }
+
+  .user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .post-btn {
+      width: 100%;
+      cursor: pointer;
+      background: var(--bs-primary);
+      color: white;
+      font-size: 13px;
+      padding: 10px 15px;
+      border-radius: var(--bs-border-radius);
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    resize: none;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s ease;
+
+    &:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
+
+    &::placeholder {
+      color: #aaa;
+    }
+  }
+  .preview-container {
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  }
+
+  .icon {
+    font-size: 40px;
+    color: #aaa;
+    transition: 0.2s;
+
+    .uploadLabel:hover & {
+      color: #4a90e2;
+      transform: scale(1.1);
+    }
+  }
+}

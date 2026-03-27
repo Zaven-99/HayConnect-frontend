@@ -29,7 +29,7 @@ export const useAuth = () => {
     setFormType(type);
   };
 
-  const handleLogin = async (data: IFormValues) => {
+  const handleLogin = async (data: IFormValues, rememberMe: boolean) => {
     dispatch(loginUser({ data, rememberMe }))
       .unwrap()
       .then(() => {

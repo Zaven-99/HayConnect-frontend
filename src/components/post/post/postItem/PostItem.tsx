@@ -102,7 +102,13 @@ const PostItem = ({
         <Raiting
           value={ratings[`post_${postIdStr}`] || 0}
           onRate={(value) =>
-            dispatch(rateItem({ id: postIdStr, type: "post", rating: value }))
+            dispatch(
+              rateItem({
+                id: postIdStr,
+                type: "post",
+                rating: value,
+              }),
+            )
           }
         />
       </div>

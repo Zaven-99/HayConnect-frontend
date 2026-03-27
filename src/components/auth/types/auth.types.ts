@@ -5,6 +5,7 @@ export interface IFormValues {
   gender: string;
   email: string;
   password: string;
+  ratingAvg?: number;
   confirmPassword: string;
   day: string;
   month: string;

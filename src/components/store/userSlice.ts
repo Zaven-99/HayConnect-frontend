@@ -4,6 +4,7 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import type { IUser, IFormValues } from "../auth/types/auth.types";
+import { rateItem } from "./raitingSlice";
 
 interface UserState {
   user: IUser | null;
@@ -92,6 +93,7 @@ export const registerUser = createAsyncThunk(
           email: data.email,
           password: data.password,
           gender: data.gender,
+          ratingAvg: data.ratingAvg,
           dateOfBirth: dateOfBirth,
           rememberMe,
           avatar: "",
@@ -130,21 +132,18 @@ export const fetchCurrentUser = createAsyncThunk(
       });
 
       const contentType = res.headers.get("content-type");
+
       if (!res.ok) {
-        // Если сервер вернул страницу логина (HTML)
-        if (contentType && contentType.includes("text/html")) {
+        if (contentType?.includes("text/html")) {
           return rejectWithValue("Not authenticated");
         }
-        // Иначе читаем JSON ошибки
         const errorData = await res.json();
         return rejectWithValue(errorData.message || "Server error");
       }
 
-      if (contentType && contentType.includes("application/json")) {
-        return await res.json();
-      } else {
-        return rejectWithValue("Unexpected response format");
-      }
+      const data = await res.json();
+
+      return data;
     } catch (err) {
       if (err instanceof Error) return rejectWithValue(err.message);
       return rejectWithValue("Unknown error");
@@ -160,6 +159,7 @@ export const fetchUserById = createAsyncThunk(
         credentials: "include",
       });
       if (!res.ok) return rejectWithValue("User not found");
+
       return await res.json();
     } catch {
       return rejectWithValue("Network Error");
@@ -207,7 +207,6 @@ export const forgotPassword = createAsyncThunk(
           body: JSON.stringify({ email }),
         },
       );
-      console.log(email);
 
       if (!res.ok) {
         const errorData = await res.text();
@@ -256,6 +255,14 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setUserRatingAvg: (
+      state,
+      action: PayloadAction<{ userId: number; ratingAvg: number }>,
+    ) => {
+      if (state.user && state.user.id === action.payload.userId) {
+        state.user.ratingAvg = action.payload.ratingAvg;
+      }
+    },
     setUserFromMe(state, action) {
       state.user = action.payload;
       state.isLoggedIn = true;
@@ -270,6 +277,19 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(rateItem.fulfilled, (state, action) => {
+        const { id, type, rating, ratingAvg } = action.payload;
+        const newAvg = ratingAvg ?? rating;
+
+        if (type === "user") {
+          if (state.user && String(state.user.id) === String(id)) {
+            state.user.ratingAvg = newAvg;
+          }
+          if (state.viewedUser && String(state.viewedUser.id) === String(id)) {
+            state.viewedUser.ratingAvg = newAvg;
+          }
+        }
+      })
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -361,5 +381,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserFromMe, clearUser, setLoading } = userSlice.actions;
+export const { setUserFromMe, clearUser, setLoading, setUserRatingAvg } =
+  userSlice.actions;
 export default userSlice.reducer;

@@ -17,7 +17,7 @@ export const useProfileHeader = (selectedFiles: File[]) => {
     const formData = new FormData();
 
     selectedFiles.forEach((file) => {
-      formData.append("avatar", file); // 🔑 ключ важен
+      formData.append("avatar", file);
     });
 
     dispatch(updateUser(formData))

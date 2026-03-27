@@ -9,7 +9,7 @@ export function ProtectedRoute() {
   if (loading) {
     return <FaSpinner className={styles.spinner} />;
   }
-
+  if (loading) return null;
   if (!isLoggedIn) {
     return <Navigate to="/" replace />;
   }

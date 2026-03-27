@@ -5,6 +5,7 @@ import styles from "./profileHeader.module.scss";
 import { useProfileHeader } from "./hooks/useProfileHeader";
 import AddImageModal from "./addImageModal/AddImageModal";
 import { useUploadImage } from "../../../utils/useUploadImage";
+
 interface ProfileHeaderProps {
   userId?: number;
 }
@@ -17,6 +18,7 @@ const ProfileHeader = ({ userId }: ProfileHeaderProps) => {
 
   const currentUser = useSelector((state: RootState) => state.user.user);
   const viewedUser = useSelector((state: RootState) => state.user.viewedUser);
+
   const user = userId ? viewedUser : currentUser;
 
   return (

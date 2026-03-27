@@ -11,13 +11,16 @@ import type { RootState } from "../../store/store";
 
 interface UserMenuProps {
   isClosing: boolean;
+  userId?: number;
 }
 
-const UserMenu = ({ isClosing }: UserMenuProps) => {
-  const { handleLogout, username, lastName } = useLogout();
-  const ratingAvg = useSelector(
-    (state: RootState) => state.user.user?.ratingAvg,
-  );
+const UserMenu = ({ isClosing, userId }: UserMenuProps) => {
+  const { handleLogout } = useLogout();
+
+  const currentUser = useSelector((state: RootState) => state.user.user);
+  const viewedUser = useSelector((state: RootState) => state.user.viewedUser);
+
+  const user = userId ? viewedUser : currentUser;
   return (
     <div
       className={clsx(
@@ -29,11 +32,11 @@ const UserMenu = ({ isClosing }: UserMenuProps) => {
         <ul className={styles["user-menu__list"]}>
           <li className={styles["user-item"]}>
             <span className={styles["user-name"]}>
-              {username} {lastName}
+              {user?.name} {user?.lastName}
             </span>
 
             <span className={styles["rating"]}>
-              {ratingAvg ? ratingAvg.toFixed(1) : "—"}
+              {user?.ratingAvg ? user.ratingAvg.toFixed(1) : "—"}
             </span>
           </li>
           <li>

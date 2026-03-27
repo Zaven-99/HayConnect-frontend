@@ -13,7 +13,11 @@ import FormContainer from "../form/formContainer/FormContainer";
 
 interface SignInProps {
   toggleSwitch: (formType: string) => void;
-  handleLogin: (data: IFormValues, reset: () => void) => void;
+  handleLogin: (
+    data: IFormValues,
+    remember: boolean,
+    reset: () => void,
+  ) => void;
   error?: string | null;
   rememberMe: boolean;
   setRememberMe: (remember: boolean) => void;
@@ -35,7 +39,11 @@ const SignIn = ({
           Sign in to continue to HayConnect.
         </p>
 
-        <Form onSubmit={handleSubmit((data) => handleLogin(data, reset))}>
+        <Form
+          onSubmit={handleSubmit((data) =>
+            handleLogin(data, rememberMe, reset),
+          )}
+        >
           {error && <p className={styles.error}>{error}</p>}
           <label className={styles["form-label"]} htmlFor="username">
             Email

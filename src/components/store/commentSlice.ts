@@ -14,21 +14,28 @@ const initialState: CommentState = {
 };
 
 export const getComments = createAsyncThunk<
-  { postId: string; comments: IComment[] },
-  string,
+  { postId: string; comments: IComment[]; page: number },
+  { postId: string; page: number },
   { rejectValue: string }
->("comments/getComments", async (postId, { rejectWithValue }) => {
+>("comments/getComments", async ({ postId, page }, { rejectWithValue }) => {
   try {
-    const res = await fetch(`http://localhost:8080/comments/post/${postId}`, {
-      method: "GET",
-      credentials: "include",
-    });
+    const res = await fetch(
+      `http://localhost:8080/comments/post/${postId}?page=${page}&size=15`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
+
     const data = await res.json();
-    console.log(data);
+
     if (!res.ok) return rejectWithValue(data.message || "Error");
+
+    console.log("COMMENTS RESPONSE:", data);
     return {
       postId,
-      comments: Array.isArray(data) ? data : data.comments || [],
+      page,
+      comments: Array.isArray(data) ? data : data.content || [],
     };
   } catch {
     return rejectWithValue("Network Error");
@@ -81,7 +88,12 @@ const commentSlice = createSlice({
 
       .addCase(getComments.fulfilled, (state, action) => {
         state.loading = false;
-        state.comments[action.payload.postId] = action.payload.comments;
+
+        const { postId, comments, page } = action.payload;
+        const oldComments = state.comments[postId] || [];
+
+        state.comments[postId] =
+          page === 0 ? comments : [...oldComments, ...comments];
       })
       .addCase(addComment.rejected, (state, action) => {
         state.loading = false;

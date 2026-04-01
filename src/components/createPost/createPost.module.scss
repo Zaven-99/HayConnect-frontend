@@ -6,7 +6,7 @@
       0 -3px 31px 0 rgba(0, 0, 0, 0.0509803922),
       0 6px 20px 0 rgba(0, 0, 0, 0.0196078431);
     border-radius: 5px;
-    padding: 1rem 0.25rem;
+    padding: 1rem 1.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,7 +15,6 @@
       width: 100%;
       display: flex;
       align-items: center;
-      gap: 20px;
 
       .icon-wrapper {
         width: 55px;
@@ -26,7 +25,7 @@
         .icon {
           font-size: 40px;
           cursor: pointer;
-          color: #585858ff;
+          color: rgb(175, 175, 175);
           &:hover {
             color: #929292;
           }

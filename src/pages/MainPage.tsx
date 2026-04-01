@@ -5,10 +5,12 @@ import animationStyles from "../styles/animation.module.scss";
 
 const MainPage = () => {
   return (
-    <div className={animationStyles["fadeIn"]}>
-      <Header />
-      <CreatePost />
-      <Post />
+    <div>
+      <div className={animationStyles["fadeIn"]}>
+        <Header />
+        <CreatePost />
+        <Post />
+      </div>
     </div>
   );
 };

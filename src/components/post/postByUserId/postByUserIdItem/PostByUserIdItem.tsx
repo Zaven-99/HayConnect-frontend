@@ -1,6 +1,6 @@
 import PostMosaic from "../../postMosaic/PostMosaic";
 import { Raiting } from "../../../raiting/Raiting";
-import styles from "../../post/postItem/postItem.module.scss";
+import styles from "./postByUserIdItem.module.scss";
 import type { CreatePostForm } from "../../../createPost/types/createPost.types";
 
 interface PostByUserIdItemProps {

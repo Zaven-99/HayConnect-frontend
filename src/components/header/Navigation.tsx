@@ -2,18 +2,25 @@ import { RiHomeFill } from "react-icons/ri";
 import { FaUser, FaUserFriends } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { BiSolidMessage } from "react-icons/bi";
-import { useSelector } from "react-redux";
-import type { RootState } from "../store/store";
+
 import styles from "./navigation.module.scss";
 import UserMenu from "./userMenu/UserMenu";
 import { useHeader } from "./hooks/useHeader";
 import { IoNotifications } from "react-icons/io5";
-import { useClosing } from "../../../utils/useClosing";
+import UserIcon from "../userIcon/UserIcon";
 
 const Navigation = () => {
-  const avatar = useSelector((state: RootState) => state.user.user?.avatar);
-  const { showMenu, setShowMenu } = useHeader();
-  const { isClosing, handleClose } = useClosing(() => setShowMenu(!showMenu));
+  const {
+    isNotificationsOpen,
+    avatar,
+    isChatOpen,
+    menu,
+    handleChatClick,
+    hanleMenuClick,
+    handleNotificationsClick,
+    isUserMenuOpen,
+  } = useHeader();
+
   return (
     <ul className={styles.navigation} onClick={(e) => e.stopPropagation()}>
       <NavLink to="/main">
@@ -36,52 +43,35 @@ const Navigation = () => {
         )}
       </NavLink>
 
-      <NavLink to="/notifications">
-        {({ isActive }) => (
-          <li className={isActive ? styles.active : ""}>
-            <div className={styles["icon-wrapper"]}>
-              <IoNotifications className={styles.icon} />
-            </div>
-          </li>
-        )}
-      </NavLink>
+      <li className={isNotificationsOpen ? styles.active : ""}>
+        <div
+          onClick={handleNotificationsClick}
+          className={styles["icon-wrapper"]}
+        >
+          <IoNotifications className={styles.icon} />
+        </div>
+      </li>
 
-      <NavLink to="/messages">
-        {({ isActive }) => (
-          <li className={isActive ? styles.active : ""}>
-            <div className={styles["icon-wrapper"]}>
-              <BiSolidMessage className={styles.icon} />
-            </div>
-          </li>
-        )}
-      </NavLink>
+      <li className={isChatOpen ? styles.active : ""}>
+        <div onClick={handleChatClick} className={styles["icon-wrapper"]}>
+          <BiSolidMessage className={styles.icon} />
+        </div>
+      </li>
+
       <div className={styles.user}>
-        {avatar ? (
-          <li>
-            <div
-              onClick={() => {
-                setTimeout(() => setShowMenu(!showMenu), 300);
-                handleClose();
-              }}
-              className={styles["icon-wrapper"]}
-            >
-              <img src={avatar} alt="" />
-            </div>
-          </li>
-        ) : (
-          <li>
-            <div
-              onClick={() => {
-                setTimeout(() => setShowMenu(!showMenu), 300);
-                handleClose();
-              }}
-              className={styles["icon-wrapper"]}
-            >
-              <FaUser className={styles.icon} />
-            </div>
-          </li>
+        <li className={isUserMenuOpen ? styles.active : ""}>
+          <div className={styles["icon-wrapper"]}>
+            <UserIcon
+              avatar={avatar}
+              onClick={hanleMenuClick}
+              icon={<FaUser className={styles.icon} />}
+            />
+          </div>
+        </li>
+
+        {(isUserMenuOpen || menu.isClosing) && (
+          <UserMenu isClosing={menu.isClosing} />
         )}
-        {showMenu && <UserMenu isClosing={isClosing} />}
       </div>
     </ul>
   );

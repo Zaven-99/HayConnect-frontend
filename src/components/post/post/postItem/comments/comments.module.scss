@@ -1,0 +1,146 @@
+.comments-wrapper {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  animation-fill-mode: forwards;
+}
+
+/* COMMENT */
+.comment {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  padding: 10px 12px;
+  margin: 12px 0;
+
+  border-radius: 12px;
+  background: #fafafa;
+
+  transition: 0.2s;
+
+  &:hover {
+    background: #f2f2f2;
+  }
+
+  /* HEADER */
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .icon-wrapper {
+      width: 32px;
+      height: 32px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+      overflow: hidden;
+
+      .icon {
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        color: #777;
+        transition: 0.2s;
+
+        &:hover {
+          color: #111;
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    strong {
+      font-size: 13px;
+      color: #222;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  /* TEXT */
+  .comment-text {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #444;
+    margin-left: 40px;
+    word-break: break-word;
+  }
+
+  /* RATING */
+  :global(.rating) {
+    margin-left: 40px;
+  }
+}
+
+/* TEXTAREA */
+textarea {
+  width: 100%;
+  min-height: 100px;
+
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+
+  font-size: 14px;
+  font-family: inherit;
+
+  outline: none;
+  transition: 0.2s;
+
+  background: #fafafa;
+
+  &:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+    background: #fff;
+  }
+
+  &::placeholder {
+    color: #aaa;
+  }
+}
+
+/* DIVIDER */
+.divider {
+  margin: 10px 0;
+  height: 1px;
+  background: #eee;
+  border: none;
+}
+
+/* LOAD MORE BUTTON */
+.load-more-btn {
+  display: block;
+  margin: 16px auto;
+
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #fff;
+  background: var(--bs-primary);
+
+  border: none;
+  border-radius: 20px;
+
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}

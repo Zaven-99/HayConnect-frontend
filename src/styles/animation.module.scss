@@ -57,3 +57,56 @@
     }
   }
 }
+
+.openChat {
+  animation: slideChatLeft 0.3s ease-out;
+  @keyframes slideChatLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+}
+.closeChat {
+  animation: slideChatRight 0.3s ease-out;
+  @keyframes slideChatRight {
+    from {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+  }
+}
+.openNotifications {
+  animation: slideNotificationsLeft 0.3s ease-out;
+  @keyframes slideNotificationsLeft {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+.closeNotifications {
+  animation: slideNotificationsRight 0.3s ease-out;
+  @keyframes slideNotificationsRight {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+  }
+}

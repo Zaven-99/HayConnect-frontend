@@ -3,6 +3,9 @@ import userReducer from "./userSlice";
 import postReducer from "./postSlice";
 import raitingReducer from "./raitingSlice";
 import commentReducer from "./commentSlice";
+import chatReducer from "./chatSlice";
+import notificationReducer from "./notificationSlice";
+import userMenuReducer from "./userMenuSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +13,9 @@ export const store = configureStore({
     post: postReducer,
     raiting: raitingReducer,
     comment: commentReducer,
+    chat: chatReducer,
+    notifications: notificationReducer,
+    userMenu: userMenuReducer,
   },
 });
 

@@ -21,6 +21,7 @@ const Post = () => {
     register,
     handleSubmit,
     ratings,
+    handleLoadMoreComments,
   } = usePost();
   const { isClosing, handleClose } = useClosing(() => setShowModal(false));
 
@@ -56,6 +57,7 @@ const Post = () => {
               register={register}
               handleSubmit={handleSubmit}
               ratings={ratings}
+              handleLoadMoreComments={handleLoadMoreComments}
             />
           );
         })

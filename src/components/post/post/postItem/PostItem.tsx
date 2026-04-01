@@ -1,7 +1,7 @@
 import PostMosaic from "../../postMosaic/PostMosaic";
 import { Raiting } from "../../../raiting/Raiting";
 import { rateItem } from "../../../store/raitingSlice";
-import { FaCommentAlt, FaUser } from "react-icons/fa";
+import { FaCommentAlt } from "react-icons/fa";
 import Form from "../../../auth/form/Form";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../../store/store";
@@ -14,6 +14,9 @@ import animationStyles from "../../../../styles/animation.module.scss";
 import type { UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { HiUserCircle } from "react-icons/hi";
+import Comments from "./comments/Comments";
+import UserIcon from "../../../userIcon/UserIcon";
+import { usePostItem } from "./hooks/usePostItem";
 
 interface PostItemProps {
   item: CreatePostForm;
@@ -27,6 +30,7 @@ interface PostItemProps {
   register: UseFormRegister<{ comment: string }>;
   handleSubmit: UseFormHandleSubmit<{ comment: string }>;
   ratings: Record<string, number>;
+  handleLoadMoreComments: (postId: string) => void;
 }
 
 const PostItem = ({
@@ -41,59 +45,57 @@ const PostItem = ({
   register,
   handleSubmit,
   ratings,
+  handleLoadMoreComments,
 }: PostItemProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { isClosing, handleClose } = useClosing(() => setShowModal(false));
-
-  const isOpen = openCommentPostId === postIdStr;
-
   const navigate = useNavigate();
+
+  const { isClosing, handleClose } = useClosing(() => setShowModal(false));
+  const isOpen = openCommentPostId === postIdStr;
+  const { handleToggleComments, formattedDate } = usePostItem({
+    handleClose,
+    handleOpenComments,
+    isOpen,
+    postIdStr,
+    item,
+  });
 
   return (
     <div className={styles["post-item"]}>
+      {/* AUTHOR */}
       <div className={styles.author}>
-        <div>
-          {item.author?.avatar ? (
-            <img
+        <div className={styles.left}>
+          <div className={styles["icon-wrapper"]}>
+            <UserIcon
+              icon={<HiUserCircle className={styles.icon} />}
               onClick={() => navigate(`/user/${item.author?.id}`)}
-              className={styles.avatar}
-              src={item.author.avatar}
-              alt="avatar"
+              avatar={item.author?.avatar}
             />
-          ) : (
-            <div className={styles["icon-wrapper"]}>
-              <HiUserCircle
-                onClick={() => navigate(`/user/${item.author?.id}`)}
-                className={styles.icon}
-              />
-            </div>
-          )}
-        </div>
-        <div className={styles["author-name"]}>
-          {item.author
-            ? `${item.author.name} ${item.author.lastName}`
-            : "Unknown author"}
+          </div>
+
+          <div className={styles["author-name"]}>
+            {item.author
+              ? `${item.author.name} ${item.author.lastName}`
+              : "Unknown author"}
+          </div>
         </div>
       </div>
+
+      {/* IMAGES */}
       <PostMosaic
         onImageClick={setSelectedImage}
         setShowModal={() => setShowModal(true)}
         images={item?.images ?? []}
       />
 
+      {/* TEXT */}
       <div className={styles.text}>{item.text}</div>
 
+      {/* ACTIONS */}
       <div className={styles["post-actions"]}>
         <div className={styles["comment-icon-container"]}>
           <FaCommentAlt
-            onClick={() => {
-              if (isOpen) {
-                handleClose();
-                setTimeout(() => handleOpenComments(postIdStr), 300);
-              } else {
-                handleOpenComments(postIdStr);
-              }
-            }}
+            onClick={handleToggleComments}
             className={styles["comment-btn"]}
           />
           {(item.comments ?? []).length}
@@ -113,80 +115,52 @@ const PostItem = ({
         />
       </div>
 
-      <span className={styles.date}>
-        {item.createdAt ? new Date(item.createdAt).toLocaleDateString() : ""}
-      </span>
+      {/* DATE */}
+      <span className={styles.date}>{formattedDate}</span>
 
+      {/* COMMENTS + FORM */}
       {isOpen && (
-        <div
-          className={
-            isClosing
-              ? animationStyles["comments-wrapper-closing"]
-              : animationStyles["comments-wrapper-opening"]
-          }
-        >
-          {currentComments.length > 0 && <hr className={styles.divider} />}
+        <>
+          <div
+            className={
+              isClosing
+                ? animationStyles["comments-wrapper-closing"]
+                : animationStyles["comments-wrapper-opening"]
+            }
+          >
+            {currentComments.length > 0 && <hr className={styles.divider} />}
 
-          <div className={styles["comment-field"]}>
-            {currentComments.map((comment) => {
-              const commentIdStr = String(comment.id);
-              const goToUser = () => navigate(`/user/${comment.authorId}`);
-              return (
-                <div key={commentIdStr} className={styles.comment}>
-                  <div className={styles["user-info"]}>
-                    {comment.authorAvatar ? (
-                      <img
-                        className={styles.avatar}
-                        src={comment.authorAvatar}
-                        onClick={goToUser}
-                        alt="avatar"
-                      />
-                    ) : (
-                      <div className={styles["icon-wrapper"]}>
-                        <FaUser onClick={goToUser} className={styles.icon} />
-                      </div>
-                    )}
-                    <strong>{comment.authorName}</strong>
-                  </div>
-
-                  <p className={styles["comment-text"]}>{comment.text}</p>
-
-                  <Raiting
-                    value={ratings[`comment_${commentIdStr}`] || 0}
-                    onRate={(value) =>
-                      dispatch(
-                        rateItem({
-                          id: commentIdStr,
-                          type: "comment",
-                          rating: value,
-                        }),
-                      )
-                    }
-                  />
-                </div>
-              );
-            })}
+            <div className={styles["comment-field"]}>
+              <Comments
+                handleLoadMoreComments={handleLoadMoreComments}
+                currentComments={currentComments}
+                postIdStr={postIdStr}
+                ratings={ratings}
+                dispatch={dispatch}
+                navigate={navigate}
+              />
+            </div>
           </div>
-        </div>
-      )}
-      {isOpen && (
-        <Form
-          onSubmit={handleSubmit((data) =>
-            handleComment(postIdStr, data.comment),
-          )}
-          className={styles["comment-form"]}
-        >
-          <textarea
-            {...register("comment", { required: true })}
-            placeholder="Write your comment..."
-            className={styles["comment-textarea"]}
-          />
-          <Button
-            label="Add comment"
-            type="submit"
-            className={styles["submit-btn"]}
-          />
-        </Form>
+
+          <Form
+            onSubmit={handleSubmit((data) =>
+              handleComment(postIdStr, data.comment),
+            )}
+            className={styles["comment-form"]}
+          >
+            <textarea
+              {...register("comment", { required: true })}
+              placeholder="Write your comment..."
+              className={styles["comment-textarea"]}
+            />
+
+            <Button
+              label="Add comment"
+              type="submit"
+              className={styles["submit-btn"]}
+            />
+          </Form>
+        </>
       )}
     </div>
   );

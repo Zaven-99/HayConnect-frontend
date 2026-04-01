@@ -1,0 +1,27 @@
+.post-item {
+  width: 500px;
+  margin: 20px auto;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.06),
+    0 2px 10px rgba(0, 0, 0, 0.04);
+
+  transition: all 0.25s ease;
+  animation: fadeIn 0.4s ease forwards;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.08),
+      0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  .text {
+    margin: 18px 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #444;
+    word-break: break-word;
+  }
+}

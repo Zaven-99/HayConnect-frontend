@@ -19,6 +19,7 @@ export const usePost = () => {
   const [openCommentPostId, setOpenCommentPostId] = useState<string | null>(
     null,
   );
+  const [pageByPost, setPageByPost] = useState<Record<string, number>>({});
 
   const ratings = useSelector((state: RootState) => state.raiting.ratings);
   const { post, loading, error } = useSelector(
@@ -55,6 +56,18 @@ export const usePost = () => {
     }
   };
 
+  const handleLoadMoreComments = (postId: string) => {
+    const currentPage = pageByPost[postId] || 0;
+    const nextPage = currentPage + 1;
+
+    setPageByPost((prev) => ({
+      ...prev,
+      [postId]: nextPage,
+    }));
+
+    dispatch(getComments({ postId, page: nextPage }));
+  };
+
   const handleOpenComments = useCallback(
     (postId: string) => {
       const idStr = postId.toString();
@@ -62,9 +75,14 @@ export const usePost = () => {
         setOpenCommentPostId(null);
       } else {
         setOpenCommentPostId(idStr);
-        dispatch(getComments(idStr));
+        dispatch(getComments({ postId: idStr, page: 0 }));
+        setPageByPost((prev) => ({
+          ...prev,
+          [idStr]: 0,
+        }));
       }
     },
+
     [openCommentPostId, dispatch],
   );
 
@@ -83,5 +101,6 @@ export const usePost = () => {
     register,
     handleSubmit,
     ratings,
+    handleLoadMoreComments,
   };
 };
